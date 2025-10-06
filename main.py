@@ -4,15 +4,18 @@ from pika_client import PikaClient
 import asyncio
 from contextlib import asynccontextmanager
 from processDist_service import consume_process_dist,send_process_dist
+from db_service import consume_db
 
 pika_client = PikaClient()
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
     loop = asyncio.get_running_loop()
-    task = loop.create_task(consume_process_dist(loop))
+    processDist_task = loop.create_task(consume_process_dist(loop))
+    db_task = loop.create_task(consume_db(loop))
     yield  # startup complete
-    task.cancel()
+    processDist_task.cancel()
+    db_task.cancel()
 
 
 app = FastAPI(lifespan=lifespan)

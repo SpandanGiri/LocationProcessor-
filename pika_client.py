@@ -35,7 +35,7 @@ class PikaClient:
         queue = await channel.declare_queue(queue_name)
 
         async def process_incoming_message(message):
-            message.ack()
+            await message.ack()
             body = message.body
             if body:
                 callback(json.loads(body))        
