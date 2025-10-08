@@ -1,0 +1,17 @@
+#build docker image
+
+docker build -t main_api .
+
+
+
+#create a network to be used by all the containers
+
+docker network create mynet
+
+#run the image in the network
+
+#without network
+docker run -d --name main_api_container -p 8000:8000  main_api    
+
+#inside the network [mynet]
+docker run -d --name main_api_container --network mynet -p 8000:8000 main_api
