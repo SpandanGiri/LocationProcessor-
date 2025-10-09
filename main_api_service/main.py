@@ -22,7 +22,6 @@ def test():
 @app.post('/send')
 async def getLocation(userLoc : UserLocationModel):
     userLoc_dump = userLoc.model_dump()
-    #await send_process_dist(userLoc_dump)
     await pika_client.send_message(PROCESS_QUEUE_NAME,userLoc_dump)
     return {"queued_message": userLoc_dump}
 
