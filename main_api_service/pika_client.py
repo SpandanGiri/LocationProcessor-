@@ -21,6 +21,8 @@ class PikaClient:
 
             channel = await connection.channel()
 
+            await channel.declare_queue(queue_name, durable=True)
+
             await channel.default_exchange.publish(
                 aio_pika.Message(body=json.dumps(message).encode(),correlation_id=str(uuid.uuid4()),),
                 routing_key=queue_name,
