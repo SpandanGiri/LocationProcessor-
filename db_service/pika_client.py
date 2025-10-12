@@ -24,7 +24,7 @@ class PikaClient:
 
 
     async def consume(self,queue_name:str,callback):
-        print('consuming process queue...')
+        print('consuming db  queue...')
         connection = await aio_pika.connect_robust(host='rabbitmq',port=5672)
         channel = await connection.channel()
 
@@ -37,6 +37,7 @@ class PikaClient:
                     try:
                         await callback(body)
                     except Exception as e:
+                        
                         print('error  in processing')
                         print(e)
                     

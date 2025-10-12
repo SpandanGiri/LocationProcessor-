@@ -5,6 +5,8 @@ from pika_client import PikaClient
 kolkata = (22.5726, 88.3639)
 pika_client = PikaClient()
 
+PROCESS_DIST_QUEUE = 'process_dist_queue'
+
 async def processDist(msg):
     print(f"Processing distance of {msg}")
     user_location = (msg.get('lat'), msg.get('long'))
@@ -16,7 +18,7 @@ async def processDist(msg):
 
 async def main():
     print('keep your mind open')
-    await pika_client.consume('process_dist_queue', processDist)
+    await pika_client.consume(PROCESS_DIST_QUEUE, processDist)
 
 if __name__ == "__main__":
     asyncio.run(main())
